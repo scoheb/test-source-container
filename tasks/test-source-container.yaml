@@ -24,8 +24,11 @@ spec:
           containerImage=$(jq -r '.containerImage' <<< $component)
           echo $containerImage
           skopeo inspect --raw docker://$containerImage
-          sourceContainer=${containerImage}-source
-          # --path /:/tmp/busybox
+          #sourceContainer=${containerImage}-source
+          git_sha=$(jq -r '.source.git.revision' <<< $component)
+          echo $git_sha
+          sourceContainer="${containerImage%@sha256:*}:${git_sha}.src"
+          echo $sourceContainer
           mkdir /tmp/$$
           skopeo copy docker://$sourceContainer dir:/tmp/$$
           ls -l /tmp/$$

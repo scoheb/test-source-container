@@ -27,11 +27,11 @@ spec:
         "components": [
             {
                 "name": "rhel-bootc",
-                "containerImage": "registry.redhat.io/rhel9-beta/rhel-bootc:9.4",
+                "containerImage": "quay.io/redhat-user-workloads/rhel-bootc-tenant/rhel-bootc-9-4/rhel-bootc-9-4@sha256:ff57c770d283c1dcd750ad4b64f1386b7053b36b6d1a3ea60d4a68ce0473780e",
                 "source": {
                     "git": {
-                        "url": "https://github.com/ernesgonzalez33/insights-ingress-go",
-                        "revision": "1d5de29b99c26dd432f289d3408590269d0f58a6"
+                        "url": "https://gitlab.com/redhat/rhel/bifrost/rhel-bootc",
+                        "revision": "779f7d7aad51741f8ed4834ebd8e8cd1ee610a20"
                     }
                 }
             }
