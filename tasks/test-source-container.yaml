@@ -36,8 +36,11 @@ spec:
           for f in $(ls)
           do
             fileType=$(file $f)
+            echo $fileType
             echo $fileType | grep -q gzip
-            if [ $? -eq 0 ]; then
+            isGzip=$?
+            echo $isGzip
+            if [ $isGzip -eq 0 ]; then
               tar xvzf ${f}
             fi
           done
