@@ -50,6 +50,7 @@ spec:
         
           for tf in $(ls /tmp/$$/extra_src_dir)
           do
-            echo $tf
+            echo /tmp/$$/extra_src_dir/$tf
+            tar xvzf /tmp/$$/extra_src_dir/$tf
           done
         done
