@@ -36,14 +36,20 @@ spec:
           for f in $(ls)
           do
             fileType=$(file $f)
-            echo $fileType
             set +e
             echo $fileType | grep -q gzip
             isGzip=$?
             set -e
-            echo $isGzip
             if [ $isGzip -eq 0 ]; then
               tar xvzf ${f}
             fi
+          done
+        
+          mkdir /tmp/$$-blobs
+          cd /tmp/$$-blobs
+        
+          for tf in $(ls /tmp/$$/extra_src_dir)
+          do
+            echo $tf
           done
         done
