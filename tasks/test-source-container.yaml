@@ -37,7 +37,9 @@ spec:
           do
             fileType=$(file $f)
             echo $fileType
+            set +e
             echo $fileType | grep -q gzip
+            set -e
             isGzip=$?
             echo $isGzip
             if [ $isGzip -eq 0 ]; then
