@@ -12,7 +12,7 @@ metadata:
   labels:
     appstudio.openshift.io/application: tekton-insights
     appstudio.openshift.io/component: tekton-insights
-  name: tekton-insights-on-pull-request
+  name: test-source-container
   namespace: shebert-tenant
 spec:
   params:
@@ -23,11 +23,11 @@ spec:
   - name: SNAPSHOT
     value: |
       {
-        "application": "insights-ingress-go",
+        "application": "rhel-bootc",
         "components": [
             {
-                "name": "ingress",
-                "containerImage": "quay.io/redhat-user-workloads/rhtap-migration-tenant/insights-ingress-go/ingress:build-f303d-1712948816@sha256:12e29022a7d4736dd3c8377aa9d89d66d52b4f7566f0137d49295e4487a3b992",
+                "name": "rhel-bootc",
+                "containerImage": "registry.redhat.io/rhel9-beta/rhel-bootc:9.4",
                 "source": {
                     "git": {
                         "url": "https://github.com/ernesgonzalez33/insights-ingress-go",

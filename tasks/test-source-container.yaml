@@ -18,4 +18,9 @@ spec:
       script: |
         #!/bin/bash
         set -ex
-        echo $SNAPSHOT
+        echo $SNAPSHOT | jq .
+        for component in $(jq -rc '.components[]' <<< "${SNAPSHOT}")
+        do
+          containerImage=$(jq -r '.containerImage' <<< $component)
+          echo $containerImage
+        done
