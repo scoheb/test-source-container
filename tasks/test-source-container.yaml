@@ -39,8 +39,8 @@ spec:
             echo $fileType
             set +e
             echo $fileType | grep -q gzip
-            set -e
             isGzip=$?
+            set -e
             echo $isGzip
             if [ $isGzip -eq 0 ]; then
               tar xvzf ${f}
