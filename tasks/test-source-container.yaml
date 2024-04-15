@@ -10,7 +10,7 @@ spec:
       description: "AppStudio snapshot (see example above)"
   steps:
     - name: parse-snapshot
-      image: "quay.io/redhat-appstudio/release-service-utils:bc81bfed6062a386e48a76b252c6f33b52c411b0"
+      image: "quay.io/scoheb/release-service-utils:test-source-container"
       env:
         # String interpolation is easier when injecting the SNAPSHOT to an env var.
         - name: SNAPSHOT
