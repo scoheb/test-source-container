@@ -53,4 +53,12 @@ spec:
             echo /tmp/$$/extra_src_dir/$tf
             tar xvf /tmp/$$/extra_src_dir/$tf
           done
+
+          for tgzf in $(ls)
+          do
+            echo $tgzf
+            tar xvzf $tgzf
+          done
+        
+          ls -lFa
         done
