@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: test-source-container
+spec:
+  params:
+    - name: SNAPSHOT
+      type: string
+      description: "AppStudio snapshot (see example above)"
+  steps:
+    - name: parse-snapshot
+      image: "quay.io/redhat-appstudio/release-service-utils:bc81bfed6062a386e48a76b252c6f33b52c411b0"
+      env:
+        # String interpolation is easier when injecting the SNAPSHOT to an env var.
+        - name: SNAPSHOT
+          value: $(params.SNAPSHOT)
+      script: |
+        #!/bin/bash
+        set -ex
+        echo $SNAPSHOT

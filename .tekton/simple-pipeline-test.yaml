@@ -13,13 +13,13 @@ metadata:
     appstudio.openshift.io/application: tekton-insights
     appstudio.openshift.io/component: tekton-insights
   name: tekton-insights-on-pull-request
-  namespace: rhtap-migration-tenant
+  namespace: shebert-tenant
 spec:
   params:
   - name: URL
-    value: '{{source_url}}'
+    value: 'https://github.com/scoheb/test-source-container'
   - name: REVISION
-    value: '{{revision}}'
+    value: 'main'
   - name: SNAPSHOT
     value: |
       {
@@ -38,21 +38,13 @@ spec:
         ],
         "artifacts": {}
       }
-  - name: APP_NAME
-    value: ingress
-  - name: COMPONENT_NAME
-    value: ingress
-  - name: IQE_PLUGINS
-    value: ingress
-  - name: IQE_MARKER_EXPRESSION
-    value: smoke
   pipelineRef:
       resolver: git
       params:
       - name: url
-        value: '{{source_url}}'
+        value: 'https://github.com/scoheb/test-source-container'
       - name: revision
-        value: '{{revision}}'
+        value: 'main'
       - name: pathInRepo
         value: pipelines/basic.yaml
     
