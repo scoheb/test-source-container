@@ -24,4 +24,9 @@ spec:
           containerImage=$(jq -r '.containerImage' <<< $component)
           echo $containerImage
           skopeo inspect --raw docker://$containerImage
+          sourceContainer=${containerImage}-source
+          # --path /:/tmp/busybox
+          mkdir /tmp/$$
+          oc image extract $sourceContainer --path /:/tmp/$$
+          ls -l /tmp/$$
         done
