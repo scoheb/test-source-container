@@ -23,4 +23,5 @@ spec:
         do
           containerImage=$(jq -r '.containerImage' <<< $component)
           echo $containerImage
+          skopeo inspect --raw docker://$containerImage
         done
