@@ -32,4 +32,6 @@ spec:
           mkdir /tmp/$$
           skopeo copy docker://$sourceContainer dir:/tmp/$$
           ls -l /tmp/$$
+          cd /tmp/$$
+          for f in $(ls); do file $f; done
         done
