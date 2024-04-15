@@ -27,6 +27,6 @@ spec:
           sourceContainer=${containerImage}-source
           # --path /:/tmp/busybox
           mkdir /tmp/$$
-          oc image extract $sourceContainer --path /:/tmp/$$
+          skopeo copy docker://$sourceContainer dir:/tmp/$$
           ls -l /tmp/$$
         done
