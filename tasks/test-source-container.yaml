@@ -27,7 +27,7 @@ spec:
           #sourceContainer=${containerImage}-source
           git_sha=$(jq -r '.source.git.revision' <<< $component)
           echo $git_sha
-          tags=$(skopeo list-tags ${containerImage%@sha256:*} | jq -r .Tags[])
+          tags=$(skopeo list-tags docker://${containerImage%@sha256:*} | jq -r .Tags[])
           for tag in $tags
           do
             if [ $tag == "on-pr-${git_sha}.src" || $tag == "${git_sha}.src" ]; then
