@@ -27,7 +27,7 @@ spec:
           #sourceContainer=${containerImage}-source
           git_sha=$(jq -r '.source.git.revision' <<< $component)
           echo $git_sha
-          sourceContainer="${containerImage%@sha256:*}:${git_sha}.src"
+          sourceContainer="${containerImage%@sha256:*}:on-pr-${git_sha}.src"
           echo $sourceContainer
           mkdir /tmp/$$
           skopeo copy docker://$sourceContainer dir:/tmp/$$
