@@ -30,7 +30,7 @@ spec:
           tags=$(skopeo list-tags docker://${containerImage%@sha256:*} | jq -r .Tags[])
           for tag in $tags
           do
-            if [ $tag == "on-pr-${git_sha}.src" || $tag == "${git_sha}.src" ]; then
+            if [ $tag == "on-pr-${git_sha}.src" ] || [ $tag == "${git_sha}.src" ]; then
               echo "found tag: $tag"
               sourceContainer="${containerImage%@sha256:*}:$tag"
               break
