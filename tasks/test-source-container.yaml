@@ -21,57 +21,67 @@ spec:
         echo $SNAPSHOT | jq .
         for component in $(jq -rc '.components[]' <<< "${SNAPSHOT}")
         do
-          containerImage=$(jq -r '.containerImage' <<< $component)
-          echo $containerImage
-          skopeo inspect --raw docker://$containerImage
-          #sourceContainer=${containerImage}-source
-          git_sha=$(jq -r '.source.git.revision' <<< $component)
-          echo $git_sha
-          tags=$(skopeo list-tags docker://${containerImage%@sha256:*} | jq -r .Tags[])
-          for tag in $tags
-          do
-            if [ $tag == "on-pr-${git_sha}.src" ] || [ $tag == "${git_sha}.src" ]; then
-              echo "found tag: $tag"
-              sourceContainer="${containerImage%@sha256:*}:$tag"
-              break
-            fi
-          done
-          if [ -z "${sourceContainer}" ] ; then
-            echo "Error: source container tag not found"
-            exit 1
-          fi
-
-          echo $sourceContainer
-          mkdir /tmp/$$
-          skopeo copy docker://$sourceContainer dir:/tmp/$$
-          ls -l /tmp/$$
-          cd /tmp/$$
-          for f in $(ls)
-          do
-            fileType=$(file $f)
-            set +e
-            echo $fileType | grep -q gzip
-            isGzip=$?
-            set -e
-            if [ $isGzip -eq 0 ]; then
-              tar xvzf ${f}
-            fi
-          done
-        
-          mkdir /tmp/$$-blobs
-          cd /tmp/$$-blobs
-        
-          for tf in $(ls /tmp/$$/extra_src_dir)
-          do
-            echo /tmp/$$/extra_src_dir/$tf
-            tar xvf /tmp/$$/extra_src_dir/$tf
-          done
-
-          for tgzf in $(ls)
-          do
-            echo $tgzf
-            tar xvzf $tgzf
-          done
-        
-          ls -lFa
+        containerImage=$(jq -r '.containerImage' <<< $component)
+        echo $containerImage
+        skopeo inspect --raw docker://$containerImage
+        #sourceContainer=${containerImage}-source
+        git_sha=$(jq -r '.source.git.revision' <<< $component)
+        echo $git_sha
+        tags=$(skopeo list-tags docker://${containerImage%@sha256:*} | jq -r .Tags[])
+        for tag in $tags
+        do
+        if [ $tag == "on-pr-${git_sha}.src" ] || [ $tag == "${git_sha}.src" ]; then
+      echo "found tag: $tag"
+        sourceContainer="${containerImage%@sha256:*}:$tag"
+        break
+        fi
+        done
+        if [ -z "${sourceContainer}" ] ; then
+      echo "Error: source container tag not found"
+        exit 1
+        fi
+      
+        echo $sourceContainer
+        mkdir /tmp/$$
+        skopeo copy docker://$sourceContainer dir:/tmp/$$
+        ls -l /tmp/$$
+        cd /tmp/$$
+        for f in $(ls)
+        do
+        fileType=$(file $f)
+        set +e
+        echo $fileType | grep -q gzip
+        isGzip=$?
+        set -e
+        if [ $isGzip -eq 0 ]; then
+        tar xvzf ${f}
+        fi
+        done
+      
+        mkdir /tmp/$$-extra_src
+        cd /tmp/$$-extra_src
+      
+        for tf in $(ls /tmp/$$/extra_src_dir)
+        do
+        echo /tmp/$$/extra_src_dir/$tf
+        tar xvf /tmp/$$/extra_src_dir/$tf
+        done
+      
+        for tgzf in $(ls)
+        do
+        echo $tgzf
+        fileType=$(file $tgzf)
+        set +e
+        echo $fileType | grep -q gzip
+        isGzip=$?
+        set -e
+        if [ $isGzip -eq 0 ]; then
+        tar xvzf $tgzf
+        fi
+      
+        done
+      
+        ls -lFa /tmp/$$-extra_src
+        ls -lFa /tmp/$$/blobs/
+        ls -lFa /tmp/$$/rpm_dir/
         done
